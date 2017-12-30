@@ -8,10 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
-    <link href="../css/main.css" rel="stylesheet" type="text/css">
+    <title>Лабараторная №2</title>
+    <style>
+      <%@include file="resources/css/main.css"%>
+    </style>
   </head>
   <body>
-    <h1>Hello</h1>
+    <h1>Hello!!</h1>
   </body>
 </html>
