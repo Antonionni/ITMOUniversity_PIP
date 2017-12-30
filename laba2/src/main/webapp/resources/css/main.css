@@ -1,3 +1,94 @@
-h1 {
-    color: red;
+html body {
+     width: 100%;
+     height: 100%;
+ }
+header {
+    color: gray;
+    font-style: italic;
+}
+header .fio {
+    font-size: 20px;
+}
+
+header .group {
+    font-size: 15px;
+}
+.main-wrapper {
+    width: 100%;
+    height: 100%;
+}
+form > * {
+    margin: 20px 0 20px 10px;
+}
+
+input[type="text"] {
+    width: 40px;
+    height: 20px;
+    vertical-align: baseline;
+    margin-left: 5%;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    float: right;
+}
+
+input[type="radio"] {
+    width: 20px;
+    float: right;
+}
+
+.input-lable {
+    display: inline-block;
+    vertical-align: middle;
+}
+.input-container {
+    display: inline-block;
+    text-align: center;
+    margin-left: 5%;
+    vertical-align: middle;
+}
+.input-container > div {
+    width: 30px;
+    display: inline-block;
+}
+
+.result_list {
+    padding-top: 20px;
+    width: 300px;
+}
+.result_list_header {
+    width: 100%;
+    height: 40px;
+}
+
+.result_list_cell {
+    display: inline-block;
+    text-align: center;
+    float: left;
+    width: 32%;
+    height: 100%;
+}
+
+.result_list_header .result_list_cell {
+    border-color: gray;
+    border-style: solid;
+    border-width: 1px 1px 1px 0px;
+}
+.result_list_header .result_list_cell:first-of-type {
+    border-width: 1px 1px 1px 1px;
+}
+
+.result_list_row {
+    width: 100%;
+    height: 40px;
+}
+
+.result_list_row .result_list_cell {
+    border-color: gray;
+    border-style: solid;
+    border-width: 0px 1px 1px 0px;
+}
+.result_list_row .result_list_cell:first-of-type {
+    border-width: 0px 1px 1px 1px;
 }
