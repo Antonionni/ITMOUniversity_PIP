@@ -20,11 +20,10 @@
     </header>
   </body>
   <div class="main-wrapper">
-    <div class="plan">
-      <img src="resources/images/areas.png">
+    <div class="plan" id="plan">
+      <img src="resources/images/areas.png" id="area-image" draggable="false">
     </div>
     <div class="controls">
-      <form action="" method="post">
         <div class="y-cord">
           <label for="y-cord-input">Изменения Y:</label>
           <input type="text" id="y-cord-input" name="y-cord">
@@ -51,7 +50,6 @@
             <% } %>
           </div>
         </div>
-      </form>
     </div>
   </div>
   <script type="text/javascript">

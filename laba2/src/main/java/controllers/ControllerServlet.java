@@ -1,3 +1,5 @@
+package controllers;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -6,10 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(
-        name = "ControllerServlet",
-        urlPatterns = "/ControllerServlet"
-)
+@WebServlet("/ControllerServlet")
 public class ControllerServlet extends HttpServlet {
     private String message;
 
