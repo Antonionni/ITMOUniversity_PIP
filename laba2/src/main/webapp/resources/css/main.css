@@ -38,7 +38,20 @@ input[type="radio"] {
     float: right;
 }
 
+button {
+    width: 100px;
+    height: 20px;
+    background-color: #0ba51e;
+    color: white;
+    border-radius: 10%;
+    size: 13px;
+    border: 1px #053c05 solid;
+    font-size: 12px;
+}
 
+.plan {
+    margin-top: 10px;
+}
 .input-lable {
     display: inline-block;
     vertical-align: middle;

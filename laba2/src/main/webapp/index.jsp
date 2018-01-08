@@ -34,7 +34,7 @@
             <% for (int i = -5; i <= 3; i++) { %>
               <div>
                 <label for="radio-<%=i%>"><%=i%></label>
-                <input type="radio" id="radio-<%=i%>" value="<%=i%>" name="radio-buttons">
+                <input type="radio" id="radio-<%=i%>" value="<%=i%>" name="radio-buttons" class="radio-input">
               </div>
             <% } %>
           </div>
@@ -45,11 +45,14 @@
             <% for (int i = 1; i <= 5; ++i) { %>
             <div>
               <label for="box-<%=i%>"><%=i%></label>
-              <input type="checkbox" id="box-<%=i%>" value="<%=i%>" name="RArray[]">
+              <input type="checkbox" id="box-<%=i%>" value="<%=i%>" class="box-input">
             </div>
             <% } %>
           </div>
         </div>
+      <div class="buttons">
+        <button id="button">Проверить</button>
+      </div>
     </div>
   </div>
   <script type="text/javascript">
