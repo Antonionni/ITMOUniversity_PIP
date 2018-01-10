@@ -52,6 +52,10 @@ button {
 .plan {
     margin-top: 10px;
 }
+.plan img {
+    width: 210px;
+    height: 210px;
+}
 .input-lable {
     display: inline-block;
     vertical-align: middle;
@@ -109,7 +113,7 @@ button {
 
 .point {
     position: absolute;
-    width: 3px;
-    height: 3px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
 }

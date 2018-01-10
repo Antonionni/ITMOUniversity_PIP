@@ -1,5 +1,14 @@
 (function() {
     var isMinus = false;
+    const constants = {
+        minInputValue: -5,
+        maxInputValue: 3,
+        imageSize: 210,
+        pixelInRValue: 84,
+        httpReadyState: 4,
+        httpOkStatus: 200,
+        httpRequestURL: '/laba2_war_exploded/ControllerServlet',
+    };
     function handleCheckInput(event) {
         if (event.target.value == "-") {
             return;
@@ -8,22 +17,23 @@
         if (!value) {
             console.log("value is not number");
             this.value = "";
-        } else if (value > 3 || value < -5) {
+        } else if (value > constants.maxInputValue || value < constants.minInputValue) {
                 this.value = "";
         }
     }
     function handleImageClick(event) {
-        var imagePointer = document.getElementById("area-image");
-        var imageW = imagePointer.width;
-        var imageH = imagePointer.height;
         var pageX = event.layerX;
         var pageY = event.layerY;
 
         var rParams = _getRParams();
 
-        _sendParams(event.offsetX, event.offsetY, rParams, function(xhr) {
-            // TODO read server response
-            _setPixel(pageX, pageY, xhr.status == 200);
+        var resultPoint = _convertAbsoluteXYtoRelaitive(event.offsetX, event.offsetY);
+        console.log("x = ", resultPoint.x, " y=", resultPoint.y);
+        _sendParams(resultPoint.x, resultPoint.y, rParams, function(xhr) {
+            if (xhr.readyState === constants.httpReadyState) {
+                console.log(JSON.parse(xhr.responseText));
+                _setPixel(pageX, pageY, xhr.status == constants.httpOkStatus);
+            }
         });
     }
     function handleButtonClick() {
@@ -45,7 +55,7 @@
         var yValue = parseInt(document.getElementById("y-cord-input").value);
 
         _sendParams(xValue, yValue, rValues, function (xhr) {
-            xhr.read();
+            console.log(JSON.parse(xhr.responseText));
         })
     }
     function _setPixel(x, y, isHitting) {
@@ -58,7 +68,7 @@
     }
     function _sendParams(currentX, currentY, currentR, callBack) {
         var req = new XMLHttpRequest();
-        req.open('POST', '/laba2_Web_exploded/ControllerServlet', true);
+        req.open('POST', constants.httpRequestURL, true);
         req.setRequestHeader("Content-Type", "application/json");
         req.send(JSON.stringify({
             xValue: currentX,
@@ -82,8 +92,19 @@
         return tmpRValuesArray;
     }
 
-    function _calculatePixelPosition(currentX, currentY) {
-
+    function _convertAbsoluteXYtoRelaitive(currentX, currentY) {
+        function convertCoordinate(cord) {
+            if (cord <= constants.imageSize) {
+                return -(constants.imageSize / 2 - cord);
+            }
+            return cord - constants.imageSize / 2;
+        }
+        var pixelPoint = {
+            x: Math.ceil(convertCoordinate(currentX) / 84),
+            y: Math.ceil(convertCoordinate(currentY) / 84)
+        };
+        debugger;
+        return pixelPoint;
     }
     document.getElementById("y-cord-input").addEventListener('input', handleCheckInput, false);
     document.getElementById("area-image").addEventListener('click', handleImageClick, false);

@@ -1,7 +1,7 @@
 package models;
 
 public class Point {
-    public int xValue;
-    public int yValue;
-    public int[] rValues;
+    public double xValue;
+    public double yValue;
+    public double[] rValues;
 }
