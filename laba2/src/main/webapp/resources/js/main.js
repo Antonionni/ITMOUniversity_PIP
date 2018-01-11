@@ -7,7 +7,8 @@
         pixelInRValue: 84,
         httpReadyState: 4,
         httpOkStatus: 200,
-        httpRequestURL: '/laba2_war_exploded/ControllerServlet',
+        httpRequestURL: '/laba2_war_exploded/AreaCheckServlet',
+        notifyTimeout: 3000
     };
     function handleCheckInput(event) {
         if (event.target.value == "-") {
@@ -26,13 +27,17 @@
         var pageY = event.layerY;
 
         var rParams = _getRParams();
-
+        if (!rParams) {
+            _sendError();
+            return;
+        }
         var resultPoint = _convertAbsoluteXYtoRelaitive(event.offsetX, event.offsetY);
-        console.log("x = ", resultPoint.x, " y=", resultPoint.y);
+        console.log("x = ", resultPoint.x, " y=", resultPoint.y, "r = ", rParams);
+
         _sendParams(resultPoint.x, resultPoint.y, rParams, function(xhr) {
             if (xhr.readyState === constants.httpReadyState) {
-                console.log(JSON.parse(xhr.responseText));
-                _setPixel(pageX, pageY, xhr.status == constants.httpOkStatus);
+                var data = JSON.parse(xhr.responseText);
+                _setPixel(pageX, pageY, data.isHitting);
             }
         });
     }
@@ -43,7 +48,7 @@
         var i = 0;
         var radioButtonNodes = document.getElementsByClassName("radio-input");
         for (; i <= radioButtonNodes.length; i++) {
-            var radioButtonRef =radioButtonNodes[i];
+            var radioButtonRef = radioButtonNodes[i];
             if (radioButtonRef && radioButtonRef.checked) {
                 xValue = parseInt(radioButtonRef.value);
                 break;
@@ -73,23 +78,20 @@
         req.send(JSON.stringify({
             xValue: currentX,
             yValue: currentY,
-            rValues: currentR
+            rValue: currentR
         }));
 
         req.onreadystatechange = callBack.bind(this, req);
     }
     function _getRParams() {
         var rCheckboxNodes = document.getElementsByClassName("box-input");
-        var tmpRValuesArray = [];
-
         var i = 0;
         for (; i < rCheckboxNodes.length; i++) {
             var checkBoxRef = rCheckboxNodes[i];
             if (checkBoxRef && checkBoxRef.checked) {
-                tmpRValuesArray.push(parseInt(checkBoxRef.value));
+                return parseInt(checkBoxRef.value);
             }
         }
-        return tmpRValuesArray;
     }
 
     function _convertAbsoluteXYtoRelaitive(currentX, currentY) {
@@ -100,13 +102,52 @@
             return cord - constants.imageSize / 2;
         }
         var pixelPoint = {
-            x: Math.ceil(convertCoordinate(currentX) / 84),
-            y: Math.ceil(convertCoordinate(currentY) / 84)
+            x: Math.ceil(convertCoordinate(currentX)) / 84,
+            y: Math.ceil(convertCoordinate(currentY)) / 84
         };
-        debugger;
         return pixelPoint;
+    }
+
+    function _sendError() {
+        // check is notify message exist
+        if (document.getElementById("error-notify")) {
+            return;
+        }
+        var mainWrapperNode = document.getElementById("main-wrapper");
+        var errorNotifyNode = document.createElement("div");
+        errorNotifyNode.id = "error-notify";
+        errorNotifyNode.innerText = "Parameter R is undefined!";
+        errorNotifyNode.addEventListener('click', handleClickErrorNotify, false);
+        mainWrapperNode.appendChild(errorNotifyNode);
+
+        setTimeout(function () {
+            document.getElementById("error-notify").remove();
+        }, constants.notifyTimeout);
+    }
+    function handleClickErrorNotify() {
+        var errorNotifyNode = document.getElementById("error-notify");
+        if (errorNotifyNode) {
+            errorNotifyNode.remove();
+        }
+    }
+    function handleBoxClick(index, checkboxNodes) {
+        var i = 0;
+        for (; i < checkboxNodes.length; i++) {
+            if (checkboxNodes[i].checked) {
+                checkboxNodes[i].checked = false;
+            }
+        }
+        checkboxNodes[index].checked = true;
     }
     document.getElementById("y-cord-input").addEventListener('input', handleCheckInput, false);
     document.getElementById("area-image").addEventListener('click', handleImageClick, false);
     document.getElementById("button").addEventListener('click', handleButtonClick, false);
+
+    (function() {
+        var checkboxNodes = document.getElementsByClassName("box-input");
+        var i = 0;
+        for (;i < checkboxNodes.length; i++) {
+            checkboxNodes[i].addEventListener('click', handleBoxClick.bind(this, i, checkboxNodes), false);
+        }
+    })();
 })();

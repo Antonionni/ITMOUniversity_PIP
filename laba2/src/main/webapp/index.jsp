@@ -5,9 +5,10 @@
   Time: 23:55
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Лабараторная №2</title>
     <style>
       <%@include file="resources/css/main.css"%>
@@ -19,7 +20,7 @@
       <div class="group">группа: Р3201</div>
     </header>
   </body>
-  <div class="main-wrapper">
+  <div class="main-wrapper" id="main-wrapper">
     <div class="plan" id="plan">
       <img src="resources/images/areas.png" id="area-image" draggable="false">
     </div>

@@ -117,3 +117,20 @@ button {
     height: 5px;
     border-radius: 50%;
 }
+
+#error-notify {
+    z-index: 10;
+    color: rgba(253, 243, 224, 1);
+    background-color: rgba(232, 14, 14, 0.8);
+    width: 230px;
+    height: 40px;
+    position: absolute;
+    text-align: center;
+    line-height: 40px;
+    top: 210px;
+    left: 200px;
+    border-radius: 5%;
+    border: 1px #3a0404 solid;
+    cursor: pointer;
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
