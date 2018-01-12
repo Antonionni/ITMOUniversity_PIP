@@ -4,7 +4,8 @@
         minInputValue: -5,
         maxInputValue: 3,
         imageSize: 210,
-        pixelInRValue: 84,
+        pixelInRValue: 80,
+        pointOffset: 3,
         httpReadyState: 4,
         httpOkStatus: 200,
         httpRequestURL: '/laba2_war_exploded/AreaCheckServlet',
@@ -15,7 +16,7 @@
             return;
         }
         var value = parseInt(this.value) || 0;
-        if (!value) {
+        if (value === undefined) {
             console.log("value is not number");
             this.value = "";
         } else if (value > constants.maxInputValue || value < constants.minInputValue) {
@@ -26,15 +27,16 @@
         var pageX = event.layerX;
         var pageY = event.layerY;
 
-        var rParams = _getRParams();
-        if (!rParams) {
+        console.log("x = ", pageX, " pageY = ", pageY);
+        var rValue = _getRValue();
+        if (!rValue) {
             _sendError();
             return;
         }
-        var resultPoint = _convertAbsoluteXYtoRelaitive(event.offsetX, event.offsetY);
-        console.log("x = ", resultPoint.x, " y=", resultPoint.y, "r = ", rParams);
+        var relativePoint = _convertAbsoluteXYtoRelative(event.offsetX, event.offsetY, rValue);
 
-        _sendParams(resultPoint.x, resultPoint.y, rParams, function(xhr) {
+        console.log("xValue = ", relativePoint.x, "yValue = ", relativePoint.y, " rValue = ", rValue);
+        _sendParams(relativePoint.x, relativePoint.y, rValue, function(xhr) {
             if (xhr.readyState === constants.httpReadyState) {
                 var data = JSON.parse(xhr.responseText);
                 _setPixel(pageX, pageY, data.isHitting);
@@ -55,19 +57,29 @@
             }
         }
         // get r value
-        var rValues = _getRParams();
+        var rValue = _getRValue();
+        if (!rValue) {
+            _sendError();
+            return;
+        }
+
         // get y value
         var yValue = parseInt(document.getElementById("y-cord-input").value);
 
-        _sendParams(xValue, yValue, rValues, function (xhr) {
-            console.log(JSON.parse(xhr.responseText));
-        })
+       var absolutePoint = _convertRelativeXYtoAbsolute(xValue, yValue, rValue);
+
+        _sendParams(xValue, yValue, rValue, function (xhr) {
+            if (xhr.readyState === constants.httpReadyState) {
+                var data = JSON.parse(xhr.responseText);
+                _setPixel(absolutePoint.x, absolutePoint.y, data.isHitting);
+            }
+        });
     }
     function _setPixel(x, y, isHitting) {
         var point = document.createElement('div');
         point.className = "point";
-        point.style.left = x+"px";
-        point.style.top = y+"px";
+        point.style.left = (x - constants.pointOffset) + "px";
+        point.style.top = (y - constants.pointOffset) + "px";
         point.style.backgroundColor = isHitting ? "green" : "red";
         document.getElementById("plan").appendChild(point);
     }
@@ -83,7 +95,7 @@
 
         req.onreadystatechange = callBack.bind(this, req);
     }
-    function _getRParams() {
+    function _getRValue() {
         var rCheckboxNodes = document.getElementsByClassName("box-input");
         var i = 0;
         for (; i < rCheckboxNodes.length; i++) {
@@ -94,7 +106,7 @@
         }
     }
 
-    function _convertAbsoluteXYtoRelaitive(currentX, currentY) {
+    function _convertAbsoluteXYtoRelative(currentX, currentY, currentR) {
         function convertCoordinate(cord) {
             if (cord <= constants.imageSize) {
                 return -(constants.imageSize / 2 - cord);
@@ -102,10 +114,26 @@
             return cord - constants.imageSize / 2;
         }
         var pixelPoint = {
-            x: Math.ceil(convertCoordinate(currentX)) / 84,
-            y: Math.ceil(convertCoordinate(currentY)) / 84
+            x: convertCoordinate(currentX) / 84 * currentR,
+            y: - convertCoordinate(currentY) / 84 * currentR
         };
         return pixelPoint;
+    }
+
+    function _convertRelativeXYtoAbsolute(currentX, currentY, currentR) {
+        var planNode = document.getElementById("plan");
+        var baseX = planNode.offsetLeft;
+        var baseY = planNode.offsetTop;
+
+        // set point to plan zero
+        baseX += constants.imageSize / 2;
+        baseY += constants.imageSize / 2;
+
+        var divisionValue = constants.pixelInRValue / currentR;
+        return {
+            x: baseX + divisionValue * currentX,
+            y: baseY - divisionValue * currentY
+        }
     }
 
     function _sendError() {
@@ -132,12 +160,28 @@
     }
     function handleBoxClick(index, checkboxNodes) {
         var i = 0;
+        var lastBoxValue = 0;
         for (; i < checkboxNodes.length; i++) {
             if (checkboxNodes[i].checked) {
                 checkboxNodes[i].checked = false;
+                lastBoxValue = parseInt(checkboxNodes[i].value);
             }
         }
         checkboxNodes[index].checked = true;
+
+        var pointNodes = document.getElementsByClassName("point");
+        i = 0;
+        for (; i < pointNodes.length; i++) {
+            var currentValueX = pointNodes[i].offsetLeft;
+            var currentValueY = pointNodes[i].offsetTop;
+            var relativePoint = _convertAbsoluteXYtoRelative(currentValueX, currentValueY, lastBoxValue);
+
+            pointNodes[i].remove();
+            
+            var absolutePoint = _convertRelativeXYtoAbsolute(relativePoint.x, relativePoint.y, index);
+            _setPixel(absolutePoint.x, absolutePoint.y);
+        }
+
     }
     document.getElementById("y-cord-input").addEventListener('input', handleCheckInput, false);
     document.getElementById("area-image").addEventListener('click', handleImageClick, false);

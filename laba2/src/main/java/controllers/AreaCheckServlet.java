@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import static java.lang.Math.abs;
+
 @WebServlet("/AreaCheckServlet")
 public class AreaCheckServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
@@ -33,11 +35,11 @@ public class AreaCheckServlet extends HttpServlet {
 
         Boolean result = false;
         if (point.xValue >= 0 && point.yValue >= 0) {
-            result = (Math.pow(point.xValue, 2) + Math.pow(point.yValue, 2)) <= Math.pow(point.rValue, 2);
+            result = (Math.pow(point.xValue, 2) + Math.pow(point.yValue, 2)) <= Math.pow(point.rValue / 2, 2);
         } else if (point.xValue > 0 && point.yValue < 0) {
             // TODO mock
         } else if (point.xValue < 0 && point.yValue < 0) {
-            result = (point.xValue >= point.rValue) && (point.yValue >= point.rValue / 2);
+            result = (abs(point.xValue) <= point.rValue) && (abs(point.yValue) <= point.rValue / 2);
         } else if (point.xValue < 0 && point.yValue > 0) {
             // just false
         }
