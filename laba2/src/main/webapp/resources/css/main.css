@@ -117,7 +117,7 @@ button {
     border-width: 0px 1px 1px 1px;
 }
 
-.point {
+#point {
     position: absolute;
     width: 5px;
     height: 5px;

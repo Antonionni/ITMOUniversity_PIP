@@ -27,7 +27,7 @@
         var pageX = event.layerX;
         var pageY = event.layerY;
 
-        console.log("x = ", pageX, " pageY = ", pageY);
+        console.log("pageX = ", pageX, " pageY = ", pageY);
         var rValue = _getRValue();
         if (!rValue) {
             _sendError();
@@ -76,8 +76,12 @@
         });
     }
     function _setPixel(x, y, isHitting) {
+        var lastPoint = document.getElementById("point");
+        if (lastPoint) {
+            lastPoint.remove();
+        }
         var point = document.createElement('div');
-        point.className = "point";
+        point.id = "point";
         point.style.left = (x - constants.pointOffset) + "px";
         point.style.top = (y - constants.pointOffset) + "px";
         point.style.backgroundColor = isHitting ? "green" : "red";
@@ -114,8 +118,8 @@
             return cord - constants.imageSize / 2;
         }
         var pixelPoint = {
-            x: convertCoordinate(currentX) / 84 * currentR,
-            y: - convertCoordinate(currentY) / 84 * currentR
+            x: convertCoordinate(currentX) / constants.pixelInRValue * currentR,
+            y: - convertCoordinate(currentY) / constants.pixelInRValue * currentR
         };
         return pixelPoint;
     }
@@ -131,8 +135,8 @@
 
         var divisionValue = constants.pixelInRValue / currentR;
         return {
-            x: baseX + divisionValue * currentX,
-            y: baseY - divisionValue * currentY
+            x: Math.round(baseX + divisionValue * currentX),
+            y: Math.round(baseY - divisionValue * currentY)
         }
     }
 
@@ -158,30 +162,39 @@
             errorNotifyNode.remove();
         }
     }
-    function handleBoxClick(index, checkboxNodes) {
+    function handleBoxClick(index, checkboxNodes, event) {
         var i = 0;
-        var lastBoxValue = 0;
+        var lastRValue = 0;
         for (; i < checkboxNodes.length; i++) {
-            if (checkboxNodes[i].checked) {
+            if (checkboxNodes[i].checked && checkboxNodes[i].value !== event.target.value) {
                 checkboxNodes[i].checked = false;
-                lastBoxValue = parseInt(checkboxNodes[i].value);
+                lastRValue = parseInt(checkboxNodes[i].value);
             }
         }
         checkboxNodes[index].checked = true;
 
-        var pointNodes = document.getElementsByClassName("point");
-        i = 0;
-        for (; i < pointNodes.length; i++) {
-            var currentValueX = pointNodes[i].offsetLeft;
-            var currentValueY = pointNodes[i].offsetTop;
-            var relativePoint = _convertAbsoluteXYtoRelative(currentValueX, currentValueY, lastBoxValue);
+        var newRValue = parseInt(event.target.value);
 
-            pointNodes[i].remove();
-            
-            var absolutePoint = _convertRelativeXYtoAbsolute(relativePoint.x, relativePoint.y, index);
+        var pointNode = document.getElementById("point");
+
+        if (pointNode) {
+            var currentValueX = pointNode.offsetLeft - pointNode.parentElement.offsetLeft + constants.pointOffset;
+            var currentValueY = pointNode.offsetTop - pointNode.parentElement.offsetTop + constants.pointOffset;
+
+            var relativePoint = _convertAbsoluteXYtoRelative(currentValueX, currentValueY, lastRValue);
+            var absolutePoint = _convertRelativeXYtoAbsolute(relativePoint.x, relativePoint.y, newRValue);
+
+            console.log("relativeX = ", relativePoint.x, " relativeY = ", relativePoint.y, " absoluteX = ", absolutePoint.x, " abxoluteY = ", absolutePoint.y);
+
+            _sendParams(relativePoint.x, relativePoint.y, newRValue, function(xhr) {
+                if (xhr.readyState === constants.httpReadyState) {
+                    var data = JSON.parse(xhr.responseText);
+                    _setPixel(absolutePoint.x, absolutePoint.y, data.isHitting);
+                }
+            });
+
             _setPixel(absolutePoint.x, absolutePoint.y);
         }
-
     }
     document.getElementById("y-cord-input").addEventListener('input', handleCheckInput, false);
     document.getElementById("area-image").addEventListener('click', handleImageClick, false);
@@ -191,7 +204,7 @@
         var checkboxNodes = document.getElementsByClassName("box-input");
         var i = 0;
         for (;i < checkboxNodes.length; i++) {
-            checkboxNodes[i].addEventListener('click', handleBoxClick.bind(this, i, checkboxNodes), false);
+            checkboxNodes[i].addEventListener('change', handleBoxClick.bind(this, i, checkboxNodes), false);
         }
     })();
 })();
