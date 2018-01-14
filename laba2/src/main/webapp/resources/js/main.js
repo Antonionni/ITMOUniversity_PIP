@@ -24,10 +24,6 @@
         }
     }
     function handleImageClick(event) {
-        var pageX = event.layerX;
-        var pageY = event.layerY;
-
-        console.log("pageX = ", pageX, " pageY = ", pageY);
         var rValue = _getRValue();
         if (!rValue) {
             _sendError();
@@ -35,11 +31,9 @@
         }
         var relativePoint = _convertAbsoluteXYtoRelative(event.offsetX, event.offsetY, rValue);
 
-        console.log("xValue = ", relativePoint.x, "yValue = ", relativePoint.y, " rValue = ", rValue);
         _sendParams(relativePoint.x, relativePoint.y, rValue, function(xhr) {
             if (xhr.readyState === constants.httpReadyState) {
-                var data = JSON.parse(xhr.responseText);
-                _setPixel(pageX, pageY, data.isHitting);
+                window.location.href = constants.httpRequestURL;
             }
         });
     }
@@ -66,22 +60,15 @@
         // get y value
         var yValue = parseInt(document.getElementById("y-cord-input").value);
 
-       var absolutePoint = _convertRelativeXYtoAbsolute(xValue, yValue, rValue);
-
         _sendParams(xValue, yValue, rValue, function (xhr) {
             if (xhr.readyState === constants.httpReadyState) {
-                var data = JSON.parse(xhr.responseText);
-                _setPixel(absolutePoint.x, absolutePoint.y, data.isHitting);
+                window.location.href = constants.httpRequestURL;
             }
         });
     }
     function _setPixel(x, y, isHitting) {
-        var lastPoint = document.getElementById("point");
-        if (lastPoint) {
-            lastPoint.remove();
-        }
         var point = document.createElement('div');
-        point.id = "point";
+        point.className = "point";
         point.style.left = (x - constants.pointOffset) + "px";
         point.style.top = (y - constants.pointOffset) + "px";
         point.style.backgroundColor = isHitting ? "green" : "red";
@@ -173,18 +160,17 @@
         }
         checkboxNodes[index].checked = true;
 
-        var newRValue = parseInt(event.target.value);
+        /*var newRValue = parseInt(event.target.value);
 
-        var pointNode = document.getElementById("point");
+        var pointNodes = document.getElementsByClassName("point");
 
-        if (pointNode) {
-            var currentValueX = pointNode.offsetLeft - pointNode.parentElement.offsetLeft + constants.pointOffset;
-            var currentValueY = pointNode.offsetTop - pointNode.parentElement.offsetTop + constants.pointOffset;
+        i = 0;
+        for (; i < pointNodes.length; i++) {
+            var currentValueX = pointNodes[i].offsetLeft - pointNodes[i].parentElement.offsetLeft + constants.pointOffset;
+            var currentValueY = pointNodes[i].offsetTop - pointNodes[i].parentElement.offsetTop + constants.pointOffset;
 
             var relativePoint = _convertAbsoluteXYtoRelative(currentValueX, currentValueY, lastRValue);
             var absolutePoint = _convertRelativeXYtoAbsolute(relativePoint.x, relativePoint.y, newRValue);
-
-            console.log("relativeX = ", relativePoint.x, " relativeY = ", relativePoint.y, " absoluteX = ", absolutePoint.x, " abxoluteY = ", absolutePoint.y);
 
             _sendParams(relativePoint.x, relativePoint.y, newRValue, function(xhr) {
                 if (xhr.readyState === constants.httpReadyState) {
@@ -192,10 +178,15 @@
                     _setPixel(absolutePoint.x, absolutePoint.y, data.isHitting);
                 }
             });
-
-            _setPixel(absolutePoint.x, absolutePoint.y);
-        }
+        }*/
     }
+    (function () {
+       var i = 0;
+       for (; i < resultArray.length; ++i) {
+           var absolutePoint = _convertRelativeXYtoAbsolute(resultArray[i].xValue, resultArray[i].yValue, resultArray[i].rValue);
+           _setPixel(absolutePoint.x, absolutePoint.y, resultArray[i].isHitting);
+       }
+    })();
     document.getElementById("y-cord-input").addEventListener('input', handleCheckInput, false);
     document.getElementById("area-image").addEventListener('click', handleImageClick, false);
     document.getElementById("button").addEventListener('click', handleButtonClick, false);
