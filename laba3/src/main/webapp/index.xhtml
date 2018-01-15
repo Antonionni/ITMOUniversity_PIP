@@ -7,10 +7,44 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Лабораторная №3</title>
+        <h:outputStylesheet name="main.css" library="css"/>
     </h:head>
     <h:body>
-        <f:view>
-            <h:outputLabel value="Hello, world"/>
-        </f:view>
+        <div class="header">
+            <div class="fio">Беллавин А.П.</div>
+            <div class="group">группа: Р3201</div>
+        </div>
+        <div class="main-wrapper">
+            <div class="plan">
+                <h:graphicImage value="resources/image/areas.png"></h:graphicImage>
+            </div>
+            <div class="controls">
+                <div class="y-cord">
+                    <div class="input-label">Изменения Y:</div>
+                    <h:selectManyCheckbox value="#{controlsBean.yValue}">
+                        <f:selectItem itemValue="1" />
+                        <f:selectItem itemValue="2" />
+                        <f:selectItem itemValue="3" />
+                        <f:selectItem itemValue="4" />
+                        <f:selectItem itemValue="5" />
+                    </h:selectManyCheckbox>
+                </div>
+                <div class="x-cord">
+                    <div class="input-label">Изменения X:</div>
+                    <div class="input-container">
+                        <h:inputText id="x-value" value="#{controlsBean.xValue}"/>
+                    </div>
+                </div>
+                <div class="r-value">
+                    <div class="input-label">Изменения R:</div>
+                    <div class="input-container">
+                        <h:inputText id="r-value" value="#{controlsBean.rValue}"/>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <h:button id="button" value="Проверить" />
+                </div>
+            </div>
+        </div>
     </h:body>
 </html>
