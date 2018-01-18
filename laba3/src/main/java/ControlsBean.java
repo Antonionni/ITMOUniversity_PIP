@@ -1,21 +1,14 @@
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Named
 @SessionScoped
 public class ControlsBean implements Serializable {
-    private double xValue;
     private double yValue;
     private double rValue;
-
-    public double getrValue() {
-        return rValue;
-    }
-
-    public void setrValue(double rValue) {
-        this.rValue = rValue;
-    }
 
     public double getyValue() {
         return yValue;
@@ -25,11 +18,16 @@ public class ControlsBean implements Serializable {
         this.yValue = yValue;
     }
 
-    public double getxValue() {
-        return xValue;
+    public void doCreatePoint() {
+        double tets1 = getyValue();
+        double tets2 = getrValue();
     }
 
-    public void setxValue(double xValue) {
-        this.xValue = xValue;
+    public double getrValue() {
+        return rValue;
+    }
+
+    public void setrValue(double rValue) {
+        this.rValue = rValue;
     }
 }
