@@ -13,10 +13,6 @@
             <name>OSS Sonatype Staging</name>
             <url>https://oss.sonatype.org/content/groups/staging</url>
         </repository>
-        <repository>
-            <id>snapshots</id>
-            <url>http://anonsvn.icefaces.org/repo/maven2/releases/</url>
-        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -24,12 +20,17 @@
             <artifactId>javaee-web-api</artifactId>
             <version>8.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.icefaces</groupId>
-            <artifactId>icefaces-ace</artifactId>
-            <version>4.2.0</version>
-        </dependency>
 
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4</version>
+        </dependency>
         <dependency>
         <groupId>org.eclipse.persistence</groupId>
         <artifactId>eclipselink</artifactId>

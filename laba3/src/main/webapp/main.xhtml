@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Лабораторная №3</title>
+        <h:outputStylesheet name="main.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div class="header">
+            <div class="fio">Беллавин А.П.</div>
+            <div class="group">группа: Р3201</div>
+        </div>
+        <div class="main-wrapper">
+            <div class="plan">
+                <h:graphicImage value="resources/image/areas.png" id="area-image"/>
+            </div>
+            <h:form styleClass="controls">
+                <div class="x-value">
+                    <div class="input-label">Изменения X:</div>
+                    <div class="box-list">
+                        <h:selectBooleanCheckbox styleClass="box-input" />
+                        <span>-2</span>
+                        <h:selectBooleanCheckbox styleClass="box-input" />
+                        <span>-1.5</span>
+                        <h:selectBooleanCheckbox styleClass="box-input" />
+                        <span>-1</span>
+                        <h:selectBooleanCheckbox styleClass="box-input" />
+                        <span>-0.5</span>
+                        <h:selectBooleanCheckbox styleClass="box-input"/>
+                        <span>0</span>
+                        <h:selectBooleanCheckbox styleClass="box-input"/>
+                        <span>0.5</span>
+                        <h:selectBooleanCheckbox styleClass="box-input"/>
+                        <span>1</span>
+                        <h:selectBooleanCheckbox styleClass="box-input"/>
+                        <span>1.5</span>
+                        <h:selectBooleanCheckbox styleClass="box-input"/>
+                        <span>2</span>
+                    </div>
+                </div>
+                <div class="y-cord">
+                    <div class="input-label">Изменения Y:</div>
+                    <div class="input-container">
+                        <h:inputText id="x-value" value="#{controlsBean.yValue}" validatorMessage="Допускются значения в диапазоне от -3 до 5">
+                            <f:validateDoubleRange  minimum="-3" maximum="5" for="x-value" />
+                            <f:ajax execute="x-value" render="x-error-message" />
+                        </h:inputText>
+                        <h:message id="x-error-message" for="x-value" style="color: red"/>
+                    </div>
+                </div>
+                <div class="r-value">
+                    <div class="input-label">Изменения R:</div>
+                    <div class="input-container">
+                        <h:inputText id="r-value" value="#{controlsBean.rValue}" validatorMessage="Допускются значения в диапазоне от 1 до 4" required="true">
+                            <f:validateDoubleRange  minimum="1" maximum="4" for="r-value" />
+                            <f:ajax execute="r-value" render="r-error-message" />
+                        </h:inputText>
+                        <h:message id="r-error-message" for="r-value" style="color: red"/>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <h:commandButton id="command-button" styleClass="button" value="Проверить" action="#{controlsBean.doCreatePoint}">
+                        <f:ajax execute="command-button"/>
+                    </h:commandButton>
+                    <h:commandButton id="redirect-button" value="Вернутся" styleClass="button" style="margin-left: 1%" action="success">
+                        <f:ajax execute="redirect-button"/>
+                    </h:commandButton>
+                </div>
+            </h:form>
+        </div>
+    </h:body>
+    <h:outputScript name="main.js" library="js" />
+</html>

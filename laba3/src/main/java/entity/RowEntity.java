@@ -1,23 +1,27 @@
+package entity;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table (name = "points")
 public class RowEntity {
     @Id
     @Column (name = "id", unique = true)
     private int id;
 
-    @Column (name = "xvalue")
+    @Column (name = "xvalue", nullable=false)
     private double xValue;
 
-    @Column (name = "yvalue")
+    @Column (name = "yvalue", nullable=false)
     private double yValue;
 
-    @Column (name = "rvalue")
+    @Column (name = "rvalue", nullable=false)
     private double rValue;
 
-    @Column (name = "hitting")
+    @Column (name = "ishitting", nullable=false)
     private Boolean hitting;
 
     public int getId() {
