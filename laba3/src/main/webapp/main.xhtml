@@ -15,41 +15,33 @@
             <div class="group">группа: Р3201</div>
         </div>
         <div class="main-wrapper">
-            <div class="plan">
+            <div class="plan" id="plan">
                 <h:graphicImage value="resources/image/areas.png" id="area-image"/>
             </div>
-            <h:form styleClass="controls">
+            <h:form styleClass="controls" id="settings-form">
                 <div class="x-value">
                     <div class="input-label">Изменения X:</div>
-                    <div class="box-list">
-                        <h:selectBooleanCheckbox styleClass="box-input" />
-                        <span>-2</span>
-                        <h:selectBooleanCheckbox styleClass="box-input" />
-                        <span>-1.5</span>
-                        <h:selectBooleanCheckbox styleClass="box-input" />
-                        <span>-1</span>
-                        <h:selectBooleanCheckbox styleClass="box-input" />
-                        <span>-0.5</span>
-                        <h:selectBooleanCheckbox styleClass="box-input"/>
-                        <span>0</span>
-                        <h:selectBooleanCheckbox styleClass="box-input"/>
-                        <span>0.5</span>
-                        <h:selectBooleanCheckbox styleClass="box-input"/>
-                        <span>1</span>
-                        <h:selectBooleanCheckbox styleClass="box-input"/>
-                        <span>1.5</span>
-                        <h:selectBooleanCheckbox styleClass="box-input"/>
-                        <span>2</span>
-                    </div>
+                    <h:selectManyCheckbox value = "#{controlsBean.xValue}" styleClass="box-input" id="box-input">
+                        <f:selectItem itemValue="-2" itemLabel="-2" styleClass="box-input"  />
+                        <f:selectItem itemValue="-1.5" itemLabel="-1.5" styleClass="box-input" />
+                        <f:selectItem itemValue="-1" itemLabel="-1" styleClass="box-input" />
+                        <f:selectItem itemValue="-0.5" itemLabel="-0.5" styleClass="box-input" />
+                        <f:selectItem itemValue="0" itemLabel="0" styleClass="box-input" />
+                        <f:selectItem itemValue="0.5" itemLabel="0.5" styleClass="box-input" />
+                        <f:selectItem itemValue="1" itemLabel="1" styleClass="box-input" />
+                        <f:selectItem itemValue="1.5" itemLabel="1.5" styleClass="box-input" />
+                        <f:selectItem itemValue="2" itemLabel="2" styleClass="box-input" />
+                        <f:ajax execute="box-input" event="click"/>
+                    </h:selectManyCheckbox>
                 </div>
                 <div class="y-cord">
                     <div class="input-label">Изменения Y:</div>
                     <div class="input-container">
-                        <h:inputText id="x-value" value="#{controlsBean.yValue}" validatorMessage="Допускются значения в диапазоне от -3 до 5">
-                            <f:validateDoubleRange  minimum="-3" maximum="5" for="x-value" />
-                            <f:ajax execute="x-value" render="x-error-message" />
+                        <h:inputText id="y-value" value="#{controlsBean.yValue}" validatorMessage="Допускются значения в диапазоне от -3 до 5">
+                            <f:validateDoubleRange  minimum="-3" maximum="5" for="y-value" />
+                            <f:ajax execute="x-value" render="x-error-message" event="click" />
                         </h:inputText>
-                        <h:message id="x-error-message" for="x-value" style="color: red"/>
+                        <h:message id="x-error-message" for="y-value" style="color: red"/>
                     </div>
                 </div>
                 <div class="r-value">
@@ -64,12 +56,35 @@
                 </div>
                 <div class="buttons">
                     <h:commandButton id="command-button" styleClass="button" value="Проверить" action="#{controlsBean.doCreatePoint}">
-                        <f:ajax execute="command-button"/>
+                        <f:ajax execute="command-button" render=":renderForm:rendeTable" />
                     </h:commandButton>
                     <h:commandButton id="redirect-button" value="Вернутся" styleClass="button" style="margin-left: 1%" action="success">
                         <f:ajax execute="redirect-button"/>
                     </h:commandButton>
+                    <h:commandButton id="clear-button" value="Очистить" styleClass="button" style="margin-left: 1%" action="#{tableBean.clearTable}">
+                        <f:ajax execute="clear-button" render=":renderForm:rendeTable" />
+                    </h:commandButton>
                 </div>
+            </h:form>
+            <h:form id="renderForm">
+                <h:dataTable id="rendeTable" value="#{tableBean.table}" var="row" border="1">
+                    <h:column>
+                        <f:facet name="header">Координата Х</f:facet>
+                        #{row.xValue}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Координата Y</f:facet>
+                        #{row.yValue}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Координата R</f:facet>
+                        #{row.rValue}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Попадание</f:facet>
+                        #{row.hitting ? "Попал!" : "Не попал!"}
+                    </h:column>
+                </h:dataTable>
             </h:form>
         </div>
     </h:body>

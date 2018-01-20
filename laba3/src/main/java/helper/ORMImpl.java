@@ -3,7 +3,6 @@ package helper;
 import entity.RowEntity;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -28,4 +27,11 @@ public class ORMImpl {
         return result;
     }
 
+    public static void clean() {
+        em = EclipseLinkUtil.createEntityManager();
+        em.getTransaction().begin();
+        em.createQuery("delete FROM RowEntity c", RowEntity.class).executeUpdate();
+        em.getTransaction().commit();
+        em.close();
+    }
 }

@@ -16,6 +16,7 @@ import static java.lang.Math.pow;
 public class ControlsBean implements Serializable {
     private double yValue;
     private double rValue;
+    private String[] xValue;
 
     public double getyValue() {
         return yValue;
@@ -34,7 +35,11 @@ public class ControlsBean implements Serializable {
     }
 
     public void doCreatePoint() {
-        double currentXValue = 0;
+        String[] xValueArray = getxValue();
+        if (xValueArray.length == 0) {
+            return;
+        }
+        double currentXValue = Double.parseDouble(xValueArray[0]);
         double currentYValue = getyValue();
         double currentRValue = getrValue();
         Boolean result = checkHitting(currentXValue, currentYValue, currentRValue);
@@ -60,5 +65,13 @@ public class ControlsBean implements Serializable {
             result = (value >= 0);
         }
         return result;
+    }
+
+    public String[] getxValue() {
+        return xValue;
+    }
+
+    public void setxValue(String[] xValue) {
+        this.xValue = xValue;
     }
 }

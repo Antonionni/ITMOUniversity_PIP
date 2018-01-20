@@ -6,17 +6,22 @@
         pixelInRValue: 80,
         pointOffset: 3,
         httpReadyState: 4,
-        httpOkStatus: 200,
-        notifyTimeout: 3000
+        httpOkStatus: 200
     };
     function handleImageClick(event) {
-        var rValue = document.getElementById("r-value").value;
+        var rValueStr = document.getElementById("settings-form:r-value").value;
+        var rValue = parseFloat(rValueStr);
         var relativePoint = _convertAbsoluteXYtoRelative(event.offsetX, event.offsetY, rValue);
 
-        document.getElementById("y-value").value = relativePoint.y;
+        _setXValue(relativePoint.x);
+        document.getElementById("settings-form:y-value").value = relativePoint.y.toFixed(2);
+        document.getElementById("settings-form:y-value").click();
+        // document.getElementById("settings-form:command-button").click();
+        // _setPixel(event.layerX, event.layerY, true);
     }
 
     function _setPixel(x, y, isHitting) {
+        debugger;
         var point = document.createElement('div');
         point.className = "point";
         point.style.left = (x - constants.pointOffset) + "px";
@@ -24,34 +29,20 @@
         point.style.backgroundColor = isHitting ? "green" : "red";
         document.getElementById("plan").appendChild(point);
     }
-    function _sendParams(currentX, currentY, currentR, callBack) {
-        var req = new XMLHttpRequest();
-        req.open('POST', constants.httpRequestURL, true);
-        req.setRequestHeader("Content-Type", "application/json");
-        req.send(JSON.stringify({
-            xValue: currentX,
-            yValue: currentY,
-            rValue: currentR
-        }));
 
-        req.onreadystatechange = callBack.bind(this, req);
-    }
-    function _getRValue() {
-        var rCheckboxNodes = document.getElementsByClassName("box-input");
-        debugger;
+    function _setXValue(value) {
+        var realValue = parseFloat(Math.round(value).toFixed(1));
+        var rCheckboxNodes = document.getElementsByName("settings-form:box-input");
         var i = 0;
+
         for (; i < rCheckboxNodes.length; i++) {
             var checkBoxRef = rCheckboxNodes[i];
-            if (checkBoxRef && checkBoxRef.checked) {
-                return parseInt(checkBoxRef.value);
+            if (parseFloat(checkBoxRef.value) == realValue) {
+                checkBoxRef.checked = true;
+                checkBoxRef.click();
             }
         }
     }
-
-    function setXValue(value) {
-
-    }
-
     function _convertAbsoluteXYtoRelative(currentX, currentY, currentR) {
         function convertCoordinate(cord) {
             if (cord <= constants.imageSize) {
@@ -95,9 +86,10 @@
     document.getElementById("area-image").addEventListener('click', handleImageClick, false);
 
     (function() {
-        var checkboxNodes = document.getElementsByClassName("box-input");
+        var checkboxNodes = document.getElementsByName("settings-form:box-input");
         var i = 0;
         for (;i < checkboxNodes.length; i++) {
+            checkboxNodes[i].checked = false;
             checkboxNodes[i].addEventListener('change', handleBoxClick.bind(this, i, checkboxNodes), false);
         }
     })();

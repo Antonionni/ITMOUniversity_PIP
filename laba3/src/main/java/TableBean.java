@@ -1,3 +1,5 @@
+import entity.RowEntity;
+import helper.ORMImpl;
 import models.TableRow;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -9,15 +11,19 @@ import java.util.List;
 @Named
 @ApplicationScoped
 public class TableBean implements Serializable {
-    private List<TableRow> table;
-
-
-    public TableBean() {
-        table = new ArrayList<TableRow>();
+    public List<TableRow> getTable() {
+        List<RowEntity> ormTable = ORMImpl.select();
+        List<TableRow> table = new ArrayList<TableRow>();
+        if (ormTable != null) {
+            for (final RowEntity entity: ormTable) {
+                table.add(new TableRow(entity.getxValue(), entity.getyValue(), entity.getrValue(), entity.getHitting()));
+            }
+        }
+        return table;
     }
 
-    public List<TableRow> getTable() {
-        return table;
+    public void clearTable() {
+        ORMImpl.clean();
     }
 
 }
