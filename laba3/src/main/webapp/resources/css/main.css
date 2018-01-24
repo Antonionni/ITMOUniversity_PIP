@@ -33,6 +33,11 @@ input[type="text"] {
 .plan img {
     width: 215px;
     height: 215px;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
 }
 .point {
     position: absolute;
@@ -69,11 +74,12 @@ input[type="text"] {
 .button {
     width: 100px;
     height: 20px;
-    background-color: #0ba51e;
+    background-color: #08a502;
     color: white;
     border-radius: 10%;
     border: 1px #053c05 solid;
     font-size: 12px;
+    cursor: pointer;
 }
 
 .back {
@@ -85,4 +91,11 @@ input[type="text"] {
     font-size: 19px;
     color: gray;
     font-family: "Times New Roman";
+}
+.box-input label {
+    display: block;
+    text-align: center;
+}
+#sendManyParamsForm {
+    display: none;
 }

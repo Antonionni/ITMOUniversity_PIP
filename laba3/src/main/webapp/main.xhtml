@@ -10,13 +10,19 @@
         <h:outputStylesheet name="main.css" library="css"/>
     </h:head>
     <h:body>
+        <h:form id="sendManyParamsForm">
+            <input id="hiddenInput" type="text" name="hidden1" />
+            <h:commandButton id="changeRValueButton" value="submit" action="#{controlsBean.changeRValue}">
+                <f:ajax execute="changeRValueButton" render=":renderForm:renderTable" onevent="update" />
+            </h:commandButton>
+        </h:form>
         <div class="header">
             <div class="fio">Беллавин А.П.</div>
             <div class="group">группа: Р3201</div>
         </div>
         <div class="main-wrapper">
             <div class="plan" id="plan">
-                <h:graphicImage value="resources/image/areas.png" id="area-image"/>
+                <h:graphicImage value="resources/image/areas.png" id="area-image" draggable="false"/>
             </div>
             <h:form styleClass="controls" id="settings-form">
                 <div class="x-value">
@@ -31,7 +37,7 @@
                         <f:selectItem itemValue="1" itemLabel="1" styleClass="box-input" />
                         <f:selectItem itemValue="1.5" itemLabel="1.5" styleClass="box-input" />
                         <f:selectItem itemValue="2" itemLabel="2" styleClass="box-input" />
-                        <f:ajax execute="box-input" event="click"/>
+                        <f:ajax execute="box-input" />
                     </h:selectManyCheckbox>
                 </div>
                 <div class="y-cord">
@@ -39,7 +45,7 @@
                     <div class="input-container">
                         <h:inputText id="y-value" value="#{controlsBean.yValue}" validatorMessage="Допускются значения в диапазоне от -3 до 5">
                             <f:validateDoubleRange  minimum="-3" maximum="5" for="y-value" />
-                            <f:ajax execute="x-value" render="x-error-message" event="click" />
+                            <f:ajax execute="y-value" render="x-error-message" event="click" />
                         </h:inputText>
                         <h:message id="x-error-message" for="y-value" style="color: red"/>
                     </div>
@@ -56,18 +62,18 @@
                 </div>
                 <div class="buttons">
                     <h:commandButton id="command-button" styleClass="button" value="Проверить" action="#{controlsBean.doCreatePoint}">
-                        <f:ajax execute="command-button" render=":renderForm:rendeTable" />
+                        <f:ajax execute="command-button" render=":renderForm:renderTable" onevent="update"/>
                     </h:commandButton>
-                    <h:commandButton id="redirect-button" value="Вернутся" styleClass="button" style="margin-left: 1%" action="success">
-                        <f:ajax execute="redirect-button"/>
+                    <h:commandButton id="redirect-button" value="Вернутся" styleClass="button" style="margin-left: 1%" action="toIndex" >
+                        <f:ajax execute="redirect-button" event="click" />
                     </h:commandButton>
                     <h:commandButton id="clear-button" value="Очистить" styleClass="button" style="margin-left: 1%" action="#{tableBean.clearTable}">
-                        <f:ajax execute="clear-button" render=":renderForm:rendeTable" />
+                        <f:ajax execute="clear-button" render=":renderForm:renderTable" onevent="update" />
                     </h:commandButton>
                 </div>
             </h:form>
             <h:form id="renderForm">
-                <h:dataTable id="rendeTable" value="#{tableBean.table}" var="row" border="1">
+                <h:dataTable id="renderTable" value="#{tableBean.table}" var="row" border="1">
                     <h:column>
                         <f:facet name="header">Координата Х</f:facet>
                         #{row.xValue}
@@ -88,5 +94,11 @@
             </h:form>
         </div>
     </h:body>
+    <h:outputScript>
+        var resultArray = [];
+        (function update() {
+            resultArray = ${tableBean.JSON};
+        })();
+    </h:outputScript>
     <h:outputScript name="main.js" library="js" />
 </html>
