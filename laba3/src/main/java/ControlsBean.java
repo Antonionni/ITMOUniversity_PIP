@@ -92,14 +92,15 @@ public class ControlsBean implements Serializable {
     private Boolean checkHitting(double xValue, double yValue, double rValue) {
         Boolean result = false;
         if (xValue > 0 && yValue > 0) {
-            result = false;
+            result = (abs(xValue) <= rValue) && (abs(yValue) <= rValue / 2);
         } else if (xValue >= 0 && yValue <= 0) {
-            result = pow(xValue, 2) + pow(yValue, 2) <= pow(rValue, 2);
-        } else if (xValue < 0 && yValue < 0) {
-            result = (abs(xValue) <= rValue) && (abs(yValue) <= rValue);
-        } else if (xValue < 0 && yValue > 0) {
-            double value = (-(rValue * xValue) + (rValue * yValue) - pow(rValue, 2));
+            double value = (rValue * xValue) - ((rValue / 2) * yValue) - (pow(rValue, 2) / 2);
             result = (value <= 0);
+        } else if (xValue < 0 && yValue < 0) {
+            result = false;
+        } else if (xValue < 0 && yValue > 0) {
+
+            result = pow(xValue, 2) + pow(yValue, 2) <= pow(rValue, 2);
         }
         return result;
     }

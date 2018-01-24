@@ -28,15 +28,15 @@
                 <div class="x-value">
                     <div class="input-label">Изменения X:</div>
                     <h:selectManyCheckbox value = "#{controlsBean.xValue}" styleClass="box-input" id="box-input">
-                        <f:selectItem itemValue="-2" itemLabel="-2" styleClass="box-input"  />
-                        <f:selectItem itemValue="-1.5" itemLabel="-1.5" styleClass="box-input" />
+                        <f:selectItem itemValue="-4" itemLabel="-4" styleClass="box-input"  />
+                        <f:selectItem itemValue="-3" itemLabel="-3" styleClass="box-input" />
+                        <f:selectItem itemValue="-2" itemLabel="-2" styleClass="box-input" />
                         <f:selectItem itemValue="-1" itemLabel="-1" styleClass="box-input" />
-                        <f:selectItem itemValue="-0.5" itemLabel="-0.5" styleClass="box-input" />
                         <f:selectItem itemValue="0" itemLabel="0" styleClass="box-input" />
-                        <f:selectItem itemValue="0.5" itemLabel="0.5" styleClass="box-input" />
                         <f:selectItem itemValue="1" itemLabel="1" styleClass="box-input" />
-                        <f:selectItem itemValue="1.5" itemLabel="1.5" styleClass="box-input" />
                         <f:selectItem itemValue="2" itemLabel="2" styleClass="box-input" />
+                        <f:selectItem itemValue="3" itemLabel="3" styleClass="box-input" />
+                        <f:selectItem itemValue="4" itemLabel="4" styleClass="box-input" />
                         <f:ajax execute="box-input" />
                     </h:selectManyCheckbox>
                 </div>
@@ -53,11 +53,14 @@
                 <div class="r-value">
                     <div class="input-label">Изменения R:</div>
                     <div class="input-container">
-                        <h:inputText id="r-value" value="#{controlsBean.rValue}" validatorMessage="Допускются значения в диапазоне от 1 до 4" required="true">
-                            <f:validateDoubleRange  minimum="1" maximum="4" for="r-value" />
-                            <f:ajax execute="r-value" render="r-error-message" />
-                        </h:inputText>
-                        <h:message id="r-error-message" for="r-value" style="color: red"/>
+                        <h:selectOneMenu  id="r-value" value="#{controlsBean.rValue}" required="true">
+                            <f:selectItem itemValue = "1" itemLabel = "1" />
+                            <f:selectItem itemValue = "1.5" itemLabel = "1.5" />
+                            <f:selectItem itemValue = "2" itemLabel = "2" />
+                            <f:selectItem itemValue = "2.5" itemLabel = "2.5" />
+                            <f:selectItem itemValue = "3" itemLabel = "3" />
+                            <f:ajax execute="r-value" />
+                        </h:selectOneMenu>
                     </div>
                 </div>
                 <div class="buttons">
