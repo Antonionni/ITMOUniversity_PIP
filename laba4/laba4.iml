@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
+    <facet type="web" name="Web">
+        <configuration>
+          <webroots>
+            <root url="file://$MODULE_DIR$/src/main/webapp/target" relative="/" />
+          </webroots>
+          <sourceRoots>
+            <root url="file://$MODULE_DIR$/src/main/java" />
+            <root url="file://$MODULE_DIR$/src/main/resources" />
+          </sourceRoots>
+        </configuration>
+    </facet>
     <facet type="javaeeApplication" name="javaEEApplication">
       <configuration>
         <descriptors>
@@ -29,5 +40,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="GlassFish 5.0.0" level="application_server_libraries" />
     <orderEntry type="library" scope="PROVIDED" name="GlassFish 5.0.0 - EJB" level="application_server_libraries" />
+    <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
   </component>
 </module>

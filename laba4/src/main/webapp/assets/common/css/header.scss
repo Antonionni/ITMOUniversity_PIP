@@ -1,0 +1,26 @@
+.main-header {
+  width: 100%;
+  height: 60px;
+  display: block;
+  background-color: #d4d4d4;
+}
+
+.logo-header {
+  float: left;
+  height: 100%;
+  width: 20%;
+  background: url("../../resources/img/logo.png") no-repeat;
+  background-size: 170px;
+  margin-left: 2%;
+}
+.buttons-header {
+  float: right;
+  height: 100%;
+  width: 20%;
+  margin-right: 2%;
+  button {
+    margin-top: 10px;
+    float: right;
+    height: 40px;
+  }
+}
