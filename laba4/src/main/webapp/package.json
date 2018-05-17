@@ -27,7 +27,6 @@
     "event-stream": "^3.3.4",
     "font-awesome": "^4.7.0",
     "glob": "^7.1.2",
-    "gulp-browserify": "^0.5.1",
     "gulp-tap": "^1.0.1",
     "gulp-util": "^3.0.8",
     "jquery": "^3.3.1",
