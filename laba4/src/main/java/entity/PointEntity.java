@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table (name = "points")
-public class RowEntity {
+public class PointEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "id", unique = true)
