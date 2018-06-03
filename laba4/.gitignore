@@ -1,3 +1,7 @@
 .idea/
 src/main/webapp/node_modules/
-src/main/webapp/target/
+webapp/target/
+webapp/node_modules/
+classes/
+target/
+lib/

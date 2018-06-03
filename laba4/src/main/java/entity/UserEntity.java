@@ -3,6 +3,12 @@ package entity;
 import javax.persistence.*;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "findUserByLogin", query =
+                "SELECT user FROM User user WHERE user.login = :login"),
+        @NamedQuery(name = "signin", query =
+                "SELECT user FROM User user WHERE user.login = :login AND user.password = :password")
+})
 @Table (name = "users")
 public class UserEntity {
     @Id
