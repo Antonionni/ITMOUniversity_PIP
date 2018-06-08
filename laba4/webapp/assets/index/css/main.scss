@@ -9,8 +9,31 @@ body, html, #wrapper {
   height: 100%;
 }
 
-.index-wrapper {
-  height: calc(100% - 60px);
-  width: 100%;
-  background-color: red;
+#wrapper {
+  padding: 0% 10% 0% 10%;
+}
+.header {
+  color: gray;
+  font-style: italic;
+}
+
+.header .fio {
+  font-size: 20px;
+}
+
+.header .group {
+  font-size: 15px;
+}
+.auth-form {
+  margin-top: 10px;
+  width: 400px;
+}
+.buttons {
+  margin: 20px 0px 0px 20px;
+  display: flex;
+  justify-content: center;
+
+  button:not(:first-child) {
+    margin-left: 10px !important;
+  }
 }

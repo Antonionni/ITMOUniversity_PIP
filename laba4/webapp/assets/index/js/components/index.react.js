@@ -1,17 +1,19 @@
 import React from 'react';
-import { Button } from 'belle'
+import { Button, TextInput } from 'belle';
 
 export default class Index extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            showButton: false
+
+        this.handleEnterClick = () => {
+            debugger;
+            console.log("login = ", this.login.value, " password = ", this.password.value);
         };
     }
 
     render() {
         return (
-            <React.Fragment>
+            <div>
                 <div className="header">
                     <div className="fio">Беллавин А.П.</div>
                     <div className="group">группа: Р3201</div>
@@ -19,18 +21,20 @@ export default class Index extends React.Component {
                 <div className="main-wrapper">
                     <div className="auth-form">
                         <div className="login">
-                            <label htmlFor="login">Логин:</label>
-                            <input type="text" id="login" placeholder="Логин" />
+                            <TextInput placeholder="Логин" ref={node => { this.login = node; }}/>
                         </div>
                         <div className="password">
-                            <label htmlFor="password">Пароль:</label>
-                            <input type="password" id="password" placeholder="Пароль" />
+                            <TextInput placeholder="Пароль" ref={node => { this.password = node; }} />
+                        </div>
+                        <div className="buttons">
+                            <Button primary >Войти</Button>
+                            <Button primary>Регистрация</Button>
                         </div>
                     </div>
-                    <Button>Войти</Button>
                 </div>
-            </React.Fragment>
+            </div>
 
         );
     }
 }
+

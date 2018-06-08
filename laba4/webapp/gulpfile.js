@@ -31,7 +31,6 @@ gulp.task('browserify', () => {
             .transform(babelify, { presets: ["react", "es2015"] }).bundle()
             .pipe(source('main.js'))
             .pipe(buffer())
-            .pipe(uglify())
             .pipe(rename({ suffix: ".min" }))
             .pipe(gulp.dest(`./target`));
 });
