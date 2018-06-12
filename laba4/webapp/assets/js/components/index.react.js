@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, TextInput } from 'belle';
 import { Link } from "react-router-dom";
-import Header from '../components/header.react';
+import Header from './header.react';
 
 export default class Index extends React.Component {
     constructor(props) {
@@ -14,13 +14,12 @@ export default class Index extends React.Component {
     }
 
     render() {
-        const { match } = this.props;
         console.log("exampler");
         return (
             <div>
                 <Header />
                 <div className="main-wrapper">
-                    <div className="auth-form">
+                    <div className="auth form">
                         <div className="login">
                             <TextInput placeholder="Логин" ref={node => { this.login = node; }}/>
                         </div>
@@ -28,11 +27,10 @@ export default class Index extends React.Component {
                             <TextInput placeholder="Пароль" ref={node => { this.password = node; }} />
                         </div>
                         <div className="buttons">
-
-                            <Button primary>Войти</Button>
-                            <Link to="/register">
-                                <Button primary>Регистрация</Button>
-                            </Link>
+                            <Button primary onClick={this.handleEnterClick}>Войти</Button>
+                            <Button primary>
+                                <Link to="/register">Регистрация</Link>
+                            </Button>
                         </div>
                     </div>
                 </div>

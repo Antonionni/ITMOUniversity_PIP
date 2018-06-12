@@ -9,19 +9,16 @@ import Points from './components/points.react';
 
 const App = () => {
     return (
-        <main>
             <Switch>
-                <Route component={Index} />
+                <Route exact path='/' component={Index} />
                 <Route path='/register' component={Register} />
                 <Route path='/points' component={Points} />
             </Switch>
-        </main>
-
     );
 }
 
 ReactDOM.render(
-    <BrowserRouter>
+    <BrowserRouter basename="/laba4">
         <App />
     </BrowserRouter>,
     document.getElementById('wrapper')
