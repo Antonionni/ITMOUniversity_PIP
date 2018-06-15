@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, TextInput } from 'belle';
 import Header from './header.react';
 import { Link } from 'react-router-dom';
+import { signUp } from '../ducks/users';
 
 export default class Register extends React.Component {
     constructor(props) {
@@ -19,8 +20,10 @@ export default class Register extends React.Component {
             });
         }
         this.handleRegisterClick = () => {
+            const { dispatch } = this.props;
             const { login, password1, password2 } = this.state;
             console.log("login =", login , " password = ", password1);
+            dispatch(signUp(login, password1, password2));
         };
     }
 

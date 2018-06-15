@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from './header.react';
 
 export default class Points extends React.Component {
     constructor(props) {
@@ -8,15 +9,9 @@ export default class Points extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="header">
-                    <div className="fio">Беллавин А.П.</div>
-                    <div className="group">группа: Р3201</div>
-                </div>
+                <Header />
                 <div className="main-wrapper">
-
-                </div>
-                <div className="buttons">
-
+                    <h1>Success register</h1>
                 </div>
             </React.Fragment>
         );

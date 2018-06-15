@@ -29,14 +29,17 @@
     "gulp-tap": "^1.0.1",
     "gulp-util": "^3.0.8",
     "jquery": "^3.3.1",
+    "pnotify": "^4.0.0-alpha.4",
     "primereact": "^1.5.2",
     "react-portal": "^4.1.5",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-transition-group": "^2.3.1",
     "redux": "^3.7.2",
+    "redux-actions": "^2.4.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
+    "underscore": "^1.9.1",
     "vinyl-transform": "^1.0.0",
     "yargs": "^10.1.2"
   }
